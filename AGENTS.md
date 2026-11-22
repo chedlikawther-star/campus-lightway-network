@@ -28,3 +28,8 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+- Leaflet is browser-only: keep it inside `src/components/SafeMap.tsx`, loaded via `React.lazy` behind `<ClientOnly>`; shared route data lives in `src/lib/safe-routes.ts` so SSR never imports Leaflet.
+- Gemini calls go through the `analyzeSafetyWithGeminiFn` server function in `src/lib/gemini.functions.ts`, reading `GEMINI_API_KEY` inside the handler and falling back to a mock, so the key never reaches the browser.
+- Secret-phrase matching lives in `src/lib/sos.ts` (pure, tested) so the speech UI stays thin.
